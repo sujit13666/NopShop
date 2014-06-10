@@ -1,0 +1,240 @@
+﻿@using System.Security.Policy
+@using Nop.Plugin.Other.BsMenu.Models
+@model List<BsMenuModel>
+    
+    
+
+    
+
+@{
+
+    Html.AppendCssFileParts("~/Plugins/Other.BsMenu/Content/styles.css");
+    Html.AppendCssFileParts("~/Plugins/Other.BsMenu/Content/slider/css/slider.css");
+    
+    
+
+}
+
+@{
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/custom.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/jquery.slimscroll.min.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Content/slider/js/bootstrap-slider.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/jquery.menu-aim.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/classie.js");
+
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/main.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/api.shared.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/api.bsmenu.js");
+    
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/sammy/sammy-latest.min.js");
+    Html.AppendScriptParts("~/Plugins/Other.BsMenu/Scripts/isotope.min.js");
+    
+    
+    
+    
+}
+    
+    
+
+        
+    
+    
+
+    
+
+@*BS Top Menu*@
+
+
+
+
+
+<button class="close-button" id="showLeft">Click</button>
+
+
+
+
+
+
+<div class="cbp-spmenu-push" >
+            
+        
+    <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+
+        
+        
+
+
+        
+        <div class="row bs-search-heading-row">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                <h3>BS-23 Menu</h3>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-7 col-xs-7">
+                
+                     @Html.Action("BsSearchBox", "BsMenu")
+                       
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                <div class="bs-menu-close-div pull-right"><i id="closeLeft" class="fa fa-times"></i></div>
+                
+            </div>
+
+        </div>
+
+        
+
+        
+            
+        
+
+
+                
+                <div class="row bs-menu-main-row">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-sx-6 bs-menu-left-category-col">
+                        
+
+                        
+
+                        <div class="panel-group" id="leftMenu">
+                            
+
+                            @foreach(var category in Model)
+                            {
+                                var subCategoryNumber = 0;
+                                if(category.SubCategories.Count>0) {subCategoryNumber = category.SubCategories.Count;}
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                                                     
+
+                                        <a class="panel-title" data-categoryid="@category.Id"  data-toggle="collapse" data-parent="#leftMenu" href="#@category.SeName">
+                                             @category.Name 
+                                            @if(subCategoryNumber > 0)
+                                            {
+                                                <i class="fa fa-angle-right pull-right"></i>
+                                            }
+                                        </a>
+                                    
+                                    </div>
+                                    @if(subCategoryNumber > 0)
+                                    {
+                                        <div id="@category.SeName" class="panel-collapse collapse" style="height: 0px; ">
+                                            <div class="panel-body">
+                                                <ul>
+                                                    @foreach(var subCategory in category.SubCategories)
+                                                    {
+                                                        <li><a   href="#/category/@subCategory.Id">@subCategory.Name</a></li>
+                                                        
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+
+
+
+                            }
+
+
+                            
+                        </div>
+
+                    </div>
+                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-6  bs-menu-all-product-div">
+                        
+                    </div>
+                </div>
+
+
+    </div>
+
+
+</div>
+
+<div class="bs-modals" id="bs-modals">
+    <div class="modal fade bs-added-into-cart-modal" id="bs-added-into-cart-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title">Added to Cart</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 added-cart-image">
+                            <img id="added-cart-image-src" src=""/>    
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                            <h5 id="added-cart-text"></h5>   has been added to your cart. 
+                        </div>
+                    </div>
+              
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal bs-processing-modal" data-backdrop="static" data-keyboard="false" id="bs-added-into-cart-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title">Processing...</h4>
+                </div>
+                <div class="modal-body">
+                    <img class="bs-loading-image" src="/Plugins/Other.BsMenu/Content/images/loading.gif" />
+              
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="bs-product-modals" id="bs-product-modals">
+    
+</div>
+
+
+   
+
+<script>
+    //Making the Bs Menu
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+
+        body = document.body;
+
+    showLeft.onclick = function () {
+        $('body').css('overflow-y', 'hidden');
+        classie.toggle(this, 'active');
+        classie.toggle(menuLeft, 'cbp-spmenu-open');
+        disableOther('showLeft');
+    };
+
+    closeLeft.onclick = function () {
+        $('body').css('overflow-y', 'scroll');
+        classie.toggle(this, 'active');
+        classie.toggle(menuLeft, 'cbp-spmenu-open');
+        disableOther('showLeft');
+    };
+
+
+    function disableOther(button) {
+        if (button !== 'showLeft') {
+            classie.toggle(showLeft, 'disabled');
+        }
+
+    }
+    
+</script>

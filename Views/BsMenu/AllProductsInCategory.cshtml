@@ -1,0 +1,290 @@
+﻿@model BsSingleCategoryProductModel
+@using System.Text.RegularExpressions
+@using Nop.Plugin.Other.BsMenu.Models;
+
+@helper GetIntegerFromPrice(string PriceValue){
+
+    var removedComma = Regex.Replace(PriceValue, "\\,", string.Empty);
+    var value = Regex.Match(removedComma, "\\d+");
+   
+    
+<text>@Html.Raw(value)</text>
+}
+
+@helper GetSpecificationAttribute(string attribute){
+   /* var x = attribute.Trim();*/
+    var value = Regex.Replace(attribute,"\\s",string.Empty);
+var a = Regex.Replace(value,"\\t",string.Empty);
+     var mainvalue =  Regex.Match(a,"[0-9a-zA-Z]+");
+    /*value = Replace(value,"\r\n", string.Empty);*/
+    @Html.Raw(mainvalue)
+}
+
+
+@helper GetAllSpecificationAttributesInString(IList<Nop.Web.Models.Catalog.ProductSpecificationModel> specificationAttributeModels){
+
+    var value = "";
+    foreach (var specificationAttributeModel in specificationAttributeModels)
+    {
+        var newValue = Regex.Replace(specificationAttributeModel.SpecificationAttributeOption,"\\s",string.Empty);
+        var mainvalue =  Regex.Match(newValue,"[0-9a-zA-Z]+");
+        value += mainvalue + " ";
+    }
+    @Html.Raw(value)
+}
+
+
+
+<div class="bs-menu-page-title">
+    <h3>@Model.Name</h3>
+</div>
+
+
+    
+    
+
+@if (Model.PagingFilteringContext.PriceRangeFilter.Enabled || Model.PagingFilteringContext.SpecificationFilter.Enabled)
+{
+    <div class="row bs-menu-filter-row">
+        @if (Model.PagingFilteringContext.PriceRangeFilter.Enabled)
+        {
+   
+            if(Model.PagingFilteringContext.PriceRangeFilter.Items.Count==1)
+            {
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <div class="bs-filter-item-div">
+            
+        
+                        @foreach (var item in Model.PagingFilteringContext.PriceRangeFilter.Items)
+                        {
+                            <div>Price Range : @(item.From) @("-") @item.To</div>
+
+                            int minPrice = Int32.Parse(@GetIntegerFromPrice(item.From).ToString());
+               
+                            int maxPrice = Int32.Parse(@GetIntegerFromPrice(item.To).ToString());
+                            <input type="text" class="bs-price-range-slider" data-slider-min="@minPrice" data-slider-max="@maxPrice" data-slider-step="1" data-slider-value="[@minPrice,@maxPrice]"  />
+                        }  
+                    </div>
+                </div>
+
+            }
+       
+
+        }
+        @{
+            var notFilteredItemsGroups = Model.PagingFilteringContext.SpecificationFilter.NotFilteredItems.GroupBy(x => x.SpecificationAttributeName);
+        }
+        @if (Model.PagingFilteringContext.SpecificationFilter.Enabled)
+        {
+              
+            if (Model.PagingFilteringContext.SpecificationFilter.NotFilteredItems.Count > 0)
+            {
+                
+                foreach (var group in notFilteredItemsGroups)
+                {
+                    var groupList = group.ToList();
+                        
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                        <div class="bs-filter-item-div " id="bs-filter-checkbox-item-div">
+                            
+                        
+                            <div class="title">
+                                @groupList[0].SpecificationAttributeName
+                            </div>
+                            <ul>
+                                @foreach (var spec in groupList)
+                                {
+                                    <li>
+                                        @*<a href="@spec.FilterUrl">*@<input value="@GetSpecificationAttribute(spec.SpecificationAttributeOptionName)" class="checkbox-filter-input" type="checkbox"/>@spec.SpecificationAttributeOptionName@*</a>*@
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+ 
+                }
+                
+            }    
+   
+        }
+    </div>
+
+
+}
+
+
+
+
+
+<div class="bs-menu-products">
+    <div class="row all-product-isotope">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @if (Model.Products.Count > 0)
+            {
+
+                var i = 0;
+            
+                foreach (var product in Model.Products)
+                {
+                    if(i%6==0)
+                    {
+                        @:<div class="row">
+                    }
+                    
+                    <div id="@product.SeName" class="col-lg-2 col-md-3 col-sm-4 col-xs-6 all-product-isotope-item @product.SeName @GetAllSpecificationAttributesInString(product.SpecificationAttributeModels) " data-price ="@GetIntegerFromPrice(product.ProductPrice.Price)">
+                        @Html.Partial("_BsProductBox", product)
+                    </div>
+
+                    if(i%6==5)
+                    {
+                        @:</div>
+                        
+                             
+                    }
+                    i++;
+                }
+                if(i%6!=0)
+                {
+                    @:</div>   
+                }
+          
+            }
+    
+        </div>
+    </div>
+
+
+    
+</div>
+
+
+
+
+<script type="text/javascript">
+    
+
+    
+    
+
+    $(document).ready(function () {
+        
+        //Initailize Price Filter
+        if ($("input").hasClass("bs-price-range-slider")) {
+            $(".bs-price-range-slider").val($(".bs-price-range-slider").data("slider-value").toString());
+        }
+        //Price Filter
+        $(".bs-menu-all-product-div .bs-price-range-slider").slider().on('slide', function () {
+
+            
+            executeTheIsotope();
+        });
+
+
+        //Specification Filter
+        $(".bs-filter-item-div").on("change", "input.checkbox-filter-input", function () {
+            
+            executeTheIsotope();
+        });
+
+        
+        
+        //Initialize isotope
+        var $container = $('.all-product-isotope').isotope({
+            itemSelector: '.all-product-isotope-item',
+            layoutMode: 'fitRows'
+
+        });
+
+        function executeTheIsotope() {
+            var filterValue = [];
+            if ($(".bs-menu-all-product-div .bs-price-range-slider").length>0) {
+                var minPrice = parseInt($(".bs-menu-all-product-div .bs-price-range-slider").val().split(",")[0], 10);
+                var maxPrice = parseInt($(".bs-menu-all-product-div .bs-price-range-slider").val().split(",")[1], 10);
+                
+                //add all valid product to filter
+                $(".bs-menu-products").find('.all-product-isotope-item').each(function () {
+                    var price = parseInt($(this).data("price"), 10);
+                    if (price <= maxPrice && price >= minPrice) {
+                        filterValue.push("#" + $(this).attr("id"));
+                    }
+
+
+                });
+            }else {
+                $(".bs-menu-products").find('.all-product-isotope-item').each(function () {
+                    
+                        filterValue.push("#" + $(this).attr("id"));
+                    
+
+
+                });
+            }
+
+            
+
+            
+
+            
+
+            
+            // check if all the checkbox is uncheacked
+            if ($(".bs-filter-item-div input.checkbox-filter-input").length != $(".bs-filter-item-div input.checkbox-filter-input").filter(":not(:checked)").length) {
+                
+                //remove all uncheaked items from filter
+                $(".bs-filter-item-div input.checkbox-filter-input").filter(":not(:checked)").each(function () {
+
+                    $(".bs-menu-products ." + $(this).val()).each(function () {
+                        console.log($(this).attr("id"));
+                        if ($.inArray("#" + $(this).attr("id"), filterValue) !== -1) {
+                            console.log($.inArray("#" + $(this).attr("id"), filterValue));
+                            filterValue.splice($.inArray("#" + $(this).attr("id"), filterValue), 1);
+                        }
+                    });
+                     
+                });
+                //add all cheaked valid items to filter
+                $(".bs-filter-item-div input.checkbox-filter-input").filter(":checked").each(function () {
+
+                    if ($(".bs-menu-all-product-div .bs-price-range-slider").length > 0) {
+
+                        $(".bs-menu-products ." + $(this).val()).each(function() {
+                            var price = parseInt($(this).data("price"), 10);
+
+                            if (price <= maxPrice && price >= minPrice) {
+                                filterValue.push("#" + $(this).attr("id"));
+                            }
+
+
+                        });
+                    }else {
+                        $(".bs-menu-products ." + $(this).val()).each(function () {
+                            
+                            filterValue.push("#" + $(this).attr("id"));
+                        });
+                    }
+
+                });
+            
+            }
+            
+
+
+
+            filterValue = filterValue.join(', ');
+            console.log(filterValue);
+            if (filterValue == "") {
+                filterValue = "garbageValue";
+            }
+            $container.isotope({ filter: filterValue });
+        }        
+
+
+        $(document).on("shuffle-products",function () {
+            /*$container.isotope('shuffle');*/
+        });
+
+        
+    });    
+
+</script>

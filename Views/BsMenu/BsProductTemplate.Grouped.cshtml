@@ -1,0 +1,365 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@{
+    
+
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var productUrl = Url.RouteUrl("Product", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(productUrl);
+    }
+}
+<!--product breadcrumb-->
+
+
+
+
+
+
+@helper Create(string input, int length) 
+{
+    if(input.Length<= length)
+    {
+       @Html.Raw(@input)
+    }
+    else
+    {
+        @Html.Raw(@input.Substring(0,length))<text>...</text>
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+@*SIMPLE*@
+
+
+<div data-productid="@Model.Id" class="modal modal-static fade bs-product-details-modal" data-backdrop="static" data-keyboard="false"  id="bs-product-details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                <h4 class="modal-title">@Model.Name</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
+                {
+                    <div itemscope itemtype="http://schema.org/Product" data-productid="@Model.Id">
+                        <div class=" product-essential">
+
+
+                            <div class="row">
+                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+
+                        
+                                    <div class="bs-product-details-carousal-controller-container">
+                            
+                                        <span class="pull-right">
+                                            <a class="left-controller" href="#modal-product-picture-carousal" data-slide="prev">
+                                                <i class="fa fa-angle-left fa-2x"></i>
+                                            </a>
+                                            <a class="right-controller" href="#modal-product-picture-carousal" data-slide="next">
+                                                <i class="fa fa-angle-right fa-2x"></i>
+                                            </a>
+
+                                        </span>
+
+                                    </div>
+
+
+
+
+                                    <div id="modal-product-picture-carousal" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+        
+                                            @for (int i = 0; i < Model.PictureModels.Count; i++)
+            
+                                            {
+                                                var picture = Model.PictureModels[i];
+                                                if(i==0)
+                                                {
+                                                    @:<div class="item active">
+                
+                                                }else
+                                                {
+                                                    @:<div class="item">
+                                                }
+                  
+
+                                                <div class="bs-product-details-slide-image">
+                                                    <img src="@picture.FullSizeImageUrl" alt="@picture.AlternateText" title="@picture.Title" />
+                
+                                                </div>
+
+                    
+
+                                                @:</Div>
+            
+                                            }
+        
+        
+                                        </div>
+
+   
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                        
+                        
+                    
+                                    
+
+                                    <div class="bs-product-details-information">
+
+                                        <!--product reviews-->
+                                        @Html.Action("BsProductReviewOverview", "BsMenu", new { productId = Model.Id })
+
+                                        @if (!String.IsNullOrEmpty(Model.ShortDescription))
+                                        {
+                                            <div class="short-description">
+                                                @Html.Raw(Model.ShortDescription)
+                                            </div>
+                                        }
+                        
+                                        <!--product manufacturers-->
+                                        @Html.Action("BsProductManufacturers", "BsMenu", new { productId = Model.Id })
+                        
+                        
+                                        @Html.Action("BsShareButton", "BsMenu")
+                                         
+                        
+                                    </div>
+
+                                </div>
+
+                
+                               
+                            </div>
+
+                       
+                        </div>
+
+                  
+                    </div>
+
+
+                            
+                    <div class="space15px"></div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @if (Model.AssociatedProducts.Count == 0)
+                            {
+                                <div class="no-associated-products">
+                                    @T("Products.NoAssociatedProducts")
+                                </div>
+                            }else
+                            {
+                            
+                        
+                                <ul class="nav nav-tabs bs-menu-product-details-nav">
+                                    @{
+                                        var kk = 0;
+                                    }
+                                    @foreach (var variant in Model.AssociatedProducts)
+                                    {
+                                        if(kk==0)
+                                        {
+                                            <li class="active"><a href="#@variant.SeName" data-toggle="tab">
+                                                                   @if (!String.IsNullOrWhiteSpace(variant.Name))
+                                                                   {
+                                                                       @variant.Name
+                                                                   }else
+                                                                   {
+                                                                       @:Product @kk+1
+                                                                   }
+                                                               </a></li>
+                                        }else
+                                        {
+                                            <li><a href="#@variant.SeName" data-toggle="tab">@if (!String.IsNullOrWhiteSpace(variant.Name))
+                                                                                             {
+                                                                                                 @variant.Name
+                                                                                             }else
+                                                                                             {
+                                                                                                 @:Product @kk+1
+                                                                                             }
+
+                                                </a></li>
+                                        }
+                                
+                                        kk++;
+                                    }
+                            
+                                </ul>
+
+
+
+                                <div class="tab-content">
+                                    @{
+                                        var kt = 0;
+                                    }
+                                    @foreach (var variant in Model.AssociatedProducts)
+                                    {
+                                        if(kt==0)
+                                        {
+                                            @:<div class="tab-pane active" id="@variant.SeName" data-productid="@variant.Id">
+                                            
+                                        }else
+                                        {
+                                            @:<div class="tab-pane" id="@variant.SeName" data-productid="@variant.Id">
+                                        
+                                        
+                                        }
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                                                @if (!String.IsNullOrWhiteSpace(variant.DefaultPictureModel.ImageUrl))
+                                                {
+                                                    <div class="bs-variant-picture">
+                                                        <img alt="@variant.DefaultPictureModel.AlternateText" src="@variant.DefaultPictureModel.FullSizeImageUrl"
+                                                             title="@variant.DefaultPictureModel.Title" id="main-product-img-@variant.Id" />
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                                @if (!String.IsNullOrWhiteSpace(variant.Name))
+                                                {
+                                                    <div class="variant-name">
+                                                        @variant.Name
+                                                    </div>
+                                                }                                                    
+
+                                                @{
+                                                    var dataDictPrice = new ViewDataDictionary();
+                                                    dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", variant.Id);
+                                                    @Html.Partial("_BsProductPrice", variant.ProductPrice, dataDictPrice)
+                                                }
+
+                                                    
+                                                @if (!String.IsNullOrWhiteSpace(variant.ShortDescription))
+                                                {
+                                                    <div class="variant-description">
+                                                        @Html.Raw(variant.ShortDescription)
+                                                    </div>
+                                                }
+                                                <!--product SKU, manufacturer part number, stock info-->
+                                                @Html.Partial("_BsSKU_Man_Stock", variant)
+                                                @Html.Partial("_BsDownloadSample", variant)
+                                                @{
+                                                    var dataDictAttributes = new ViewDataDictionary();
+                                                    dataDictAttributes.TemplateInfo.HtmlFieldPrefix = string.Format("attributes_{0}", variant.Id);
+                                                    @Html.Partial("_BsProductAttributes", variant.ProductVariantAttributes, dataDictAttributes)                  
+                                                }
+                                                @{
+                                                    var dataDictGiftCard = new ViewDataDictionary();
+                                                    dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", variant.Id);
+                                                    @Html.Partial("_BsGiftCardInfo", variant.GiftCard, dataDictGiftCard)
+                                                }
+                                                        
+                                                @{
+                                                    var dataDictAddToCart = new ViewDataDictionary();
+                                                    dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", variant.Id);
+                                                    @Html.Partial("_BsAddToCart", variant.AddToCart, dataDictAddToCart)
+                                                }
+                                                <div id="bs-details-error-message-div"></div>
+                                                <div data-product-name="@variant.SeName" data-productid="@variant.Id" data-pictureurl="@variant.DefaultPictureModel.ImageUrl" class="bs-details-page-image-and-name-info" style="display: none" ></div>
+
+                                                    
+                                                @Html.Action("BsProductTierPrices", "BsMenu", new { productId = variant.Id })
+                                                    
+                                                   
+                                                    
+                                                    
+                                            </div>
+                                                
+                                        </div>
+
+                                    
+                                        @:</div>
+                                            
+                                    
+                                    
+                                        kt++;
+                                    }
+                                
+
+
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="space15px"></div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <ul class="nav nav-tabs bs-menu-product-details-nav">
+                                @if (!String.IsNullOrEmpty(Model.FullDescription))
+                                {
+                          
+                                    <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
+                                }
+                                @if (!String.IsNullOrEmpty(@Html.Action("BsProductSpecifications", "BsMenu", new { productId = Model.Id }).ToString()))
+                                {
+
+                                    <li><a href="#specification" data-toggle="tab">Specifications</a></li>
+                                }
+                                @if (!String.IsNullOrEmpty(@Html.Action("BsProductTags", "BsMenu", new { productId = Model.Id }).ToString()))
+                                {
+                                    <li><a href="#tags" data-toggle="tab">Products Tags</a></li>
+                                }
+                            </ul>
+
+
+                            <div class="tab-content">
+                                @if (!String.IsNullOrEmpty(Model.FullDescription))
+                                {
+                                    <div class="bs-full-description tab-pane active" id="description" itemprop="description">
+                                        @Html.Raw(Model.FullDescription)
+                                    </div>
+                                }
+                                <div class="bs-full-description tab-pane" id="specification">
+                                    @Html.Action("BsProductSpecifications", "BsMenu", new { productId = Model.Id })
+                                </div>
+                                <div class="bs-full-description tab-pane" id="tags">
+                                    @Html.Action("BsProductTags", "BsMenu", new { productId = Model.Id })
+                                </div>
+                            
+                            
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,365 @@
+﻿@model BsMultipleCategoryProductModel
+@using System.Text.RegularExpressions
+@using Nop.Plugin.Other.BsMenu.Models;
+
+@helper GetIntegerFromPrice(string PriceValue){
+
+    var removedComma = Regex.Replace(PriceValue, "\\,", string.Empty);
+    var value = Regex.Match(removedComma, "\\d+");
+   
+    
+@Html.Raw(value)
+}
+
+@helper GetSpecificationAttribute(string attribute){
+   /* var x = attribute.Trim();*/
+    var value = Regex.Replace(attribute,"\\s",string.Empty);
+var a = Regex.Replace(value,"\\t",string.Empty);
+     var mainvalue =  Regex.Match(a,"[0-9a-zA-Z]+");
+    /*value = Replace(value,"\r\n", string.Empty);*/
+    @Html.Raw(mainvalue)
+}
+
+
+@helper GetAllSpecificationAttributesInString(IList<Nop.Web.Models.Catalog.ProductSpecificationModel> specificationAttributeModels){
+
+    var value = "";
+    foreach (var specificationAttributeModel in specificationAttributeModels)
+    {
+        var newValue = Regex.Replace(specificationAttributeModel.SpecificationAttributeOption,"\\s",string.Empty);
+        var mainvalue =  Regex.Match(newValue,"[0-9a-zA-Z]+");
+        value += mainvalue + " ";
+    }
+    @Html.Raw(value)
+}
+
+
+
+
+<div class="bs-menu-page-title">
+    <h3>@Model.Name</h3>
+</div>
+
+
+<div class="bs-menu-subcategory-list">
+    <nav class="navbar navbar-default" role="navigation">
+        
+        <div class="collapse navbar-collapse" >
+            <ul class="nav navbar-nav" id="filters">
+                @foreach (var subcategories in Model.SubCategoriesProduct)
+                {
+                    <li><a href="#" data-filter=".@subcategories.SeName">
+                            @subcategories.Name</a>
+                    </li>
+
+
+                }
+                @*<li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>*@
+        
+            </ul>
+      
+      
+            
+        </div>
+    </nav>
+</div>
+
+
+
+@foreach (var subCategoriesProduct in Model.SubCategoriesProduct)
+{
+    if (subCategoriesProduct.PagingFilteringContext.PriceRangeFilter.Enabled || subCategoriesProduct.PagingFilteringContext.SpecificationFilter.Enabled)
+{
+    <div data-filter-row-subcategories-sename="@subCategoriesProduct.SeName" class="row bs-menu-filter-row multiple-category-filter-row @subCategoriesProduct.SeName" >
+        @if (subCategoriesProduct.PagingFilteringContext.PriceRangeFilter.Enabled)
+        {
+   
+            if(subCategoriesProduct.PagingFilteringContext.PriceRangeFilter.Items.Count==1)
+            {
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                    <div class="bs-filter-item-div">
+            
+        
+                        @foreach (var item in subCategoriesProduct.PagingFilteringContext.PriceRangeFilter.Items)
+                        {
+                            <div>Price Range : @(item.From) @("-") @item.To</div>
+
+                            int minPrice = Int32.Parse(@GetIntegerFromPrice(item.From).ToString());
+               
+                            int maxPrice = Int32.Parse(@GetIntegerFromPrice(item.To).ToString());
+                            <input  data-slider-number="@(subCategoriesProduct.Id)" type="text" class="bs-price-range-slider" data-slider-min="@minPrice" data-slider-max="@maxPrice" data-slider-step="1" data-slider-value="[@minPrice,@maxPrice]"  />
+                        }  
+                    </div>
+                </div>
+
+            }
+       
+
+        }
+        @{
+            var notFilteredItemsGroups = subCategoriesProduct.PagingFilteringContext.SpecificationFilter.NotFilteredItems.GroupBy(x => x.SpecificationAttributeName);
+        }
+        @if (subCategoriesProduct.PagingFilteringContext.SpecificationFilter.Enabled)
+        {
+              
+            if (subCategoriesProduct.PagingFilteringContext.SpecificationFilter.NotFilteredItems.Count > 0)
+            {
+                
+                foreach (var group in notFilteredItemsGroups)
+                {
+                    var groupList = group.ToList();
+                        
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                        <div class="bs-filter-item-div " id="bs-filter-checkbox-item-div">
+                            
+                        
+                            <div class="title">
+                                @groupList[0].SpecificationAttributeName
+                            </div>
+                            <ul>
+                                @foreach (var spec in groupList)
+                                {
+                                    <li>
+                                        @*<a href="@spec.FilterUrl">*@<input data-slider-number="@(subCategoriesProduct.Id)" value="@GetSpecificationAttribute(spec.SpecificationAttributeOptionName)" class="checkbox-filter-input" type="checkbox"/>@spec.SpecificationAttributeOptionName@*</a>*@
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
+ 
+                }
+                
+            }    
+   
+        }
+    </div>
+
+
+}
+}
+
+
+
+
+<div class="bs-menu-products">
+    <div class=" row isotope">
+        
+            @if (Model.SubCategories.Count > 0)
+            {
+
+                
+            
+                foreach (var subCategoriesProduct in Model.SubCategoriesProduct)
+                {
+                    
+                foreach (var product in subCategoriesProduct.Products)
+                {
+                    <div data-subcategories-sename="@subCategoriesProduct.SeName" id="@product.SeName" class="col-lg-2 col-md-3 col-sm-4 col-xs-6 isotope-item @subCategoriesProduct.SeName @GetAllSpecificationAttributesInString(product.SpecificationAttributeModels)" data-price ="@GetIntegerFromPrice(product.ProductPrice.Price)">
+                        @Html.Partial("_BsProductBox", product)
+                    </div>
+                }
+
+                }
+                
+            }
+    
+        
+    </div>
+
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+
+
+        //Hide all the filter rows at first
+        $(".row.bs-menu-filter-row").each(function () {
+            $(this).css({
+                
+            });
+        });
+
+
+        var currentSubcategory = "";
+
+        //Change Button on activation of Subcategories
+        $('#filters').on('click', 'a', function () {
+
+            var filterValue = $(this).attr('data-filter');
+
+            currentSubcategory = filterValue;
+            $(".row.bs-menu-filter-row").each(function () {
+                if (filterValue == "." + $(this).data("filter-row-subcategories-sename")) {
+                    $(this).css({
+                        height: "100%",
+                        "border-bottom": "1px solid #e1e4e6"
+                    });
+                }else {
+                    $(this).css({
+                        height: "0px",
+                        "border-bottom": "none"
+                    });
+                }
+            });
+
+            $container.isotope({ filter: filterValue });
+            $("#filters").find(".active").removeClass("active");
+            $(this).addClass('active');
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Initialize Isotope
+        var $container = $('.isotope').isotope({
+            itemSelector: '.isotope-item',
+            layoutMode: 'fitRows'
+
+        });
+        //Initialize Price Filter
+        
+        $(".bs-price-range-slider").each(function () {
+            $(this).val($(this).data("slider-value").toString());
+        });
+        
+        //Price Filter
+        
+        $(".bs-menu-all-product-div .bs-price-range-slider").slider().on('slide', function () {
+            
+            executeTheIsotope($(this).data("slider-number"));
+        });
+        
+        //Specification Filter
+        $(".bs-filter-item-div").on("change", "input.checkbox-filter-input", function () {
+            executeTheIsotope($(this).data("slider-number"));
+        });
+
+        
+
+        function executeTheIsotope(sliderNumber) {
+            
+            var filterValue = [];
+
+            if ($(".row"+currentSubcategory+" .bs-price-range-slider").length > 0) {
+                var minPrice = 0,
+                    maxPrice = 0;
+
+                //get the current slider prices
+                $(".bs-menu-all-product-div .bs-price-range-slider").each(function() {
+                    if ($(this).data("slider-number") == sliderNumber) {
+                        minPrice = parseInt($(this).val().split(",")[0], 10);
+                        maxPrice = parseInt($(this).val().split(",")[1], 10);
+                    }
+
+                });
+
+                //add all valid product to filter
+                $(".bs-menu-products").find('.isotope-item').each(function () {
+                    var subcategory = "." + $(this).data("subcategories-sename");
+                    var price = parseInt($(this).data("price"), 10);
+                    if (price <= maxPrice && price >= minPrice && subcategory === currentSubcategory) {
+                        filterValue.push("#" + $(this).attr("id"));
+                    }
+
+
+                });
+            }else {
+                $(".bs-menu-products").find('.isotope-item').each(function () {
+                    
+                    var subcategory = "." + $(this).data("subcategories-sename");
+                    console.log(subcategory + " = " + currentSubcategory);
+                    if (subcategory === currentSubcategory) {
+                        filterValue.push("#" + $(this).attr("id"));
+                        console.log("hoise");
+                    }
+                    
+
+                });
+            }
+
+            
+            
+            // check if all the checkbox is uncheacked
+            if ($(".bs-filter-item-div input.checkbox-filter-input").length != $(".bs-filter-item-div input.checkbox-filter-input").filter(":not(:checked)").length) {
+                //remove all uncheaked items from filter
+                $(".bs-filter-item-div input.checkbox-filter-input").filter(":not(:checked)").each(function () {
+
+                    $(".bs-menu-products ." + $(this).val()).each(function () {
+                        
+                        if ($.inArray("#" + $(this).attr("id"), filterValue) !== -1) {
+                            
+                            filterValue.splice($.inArray("#" + $(this).attr("id"), filterValue), 1);
+                        }
+                    });
+
+                });
+                //add all cheaked valid items to filter
+                $(".bs-filter-item-div input.checkbox-filter-input").filter(":checked").each(function () {
+
+                    if ($(".row" + currentSubcategory + " .bs-price-range-slider").length > 0) {
+
+                        $(".bs-menu-products ." + $(this).val()).each(function() {
+                            var price = parseInt($(this).data("price"), 10);
+                            var subcategory = "." + $(this).data("subcategories-sename");
+
+                            if (price <= maxPrice && price >= minPrice && subcategory === currentSubcategory) {
+                                filterValue.push("#" + $(this).attr("id"));
+                            }
+
+
+                        });
+                    }else {
+                        $(".bs-menu-products ." + $(this).val()).each(function () {
+
+                            filterValue.push("#" + $(this).attr("id"));
+                        });
+                    }
+
+                });
+
+            }
+
+
+
+
+            filterValue = filterValue.join(', ');
+            
+            if (filterValue == "") {
+                filterValue = "garbageValue";
+            }
+            $container.isotope({ filter: filterValue });
+        }
+
+
+
+
+
+    });
+
+</script> 
+
