@@ -21,14 +21,13 @@
         return false;
     }
 }
-@helper RenderCategoryLine(CategorySimpleModel category)
-{       
-        <div class="panel-heading">
-            <p class="panel-title">
-                <i class="fa fa-angle-right"></i>&nbsp;<a href="@Url.RouteUrl("Category", new { SeName = category.SeName })" >@category.Name
+
+@helper RenderSubCategoryLine(CategorySimpleModel category)
+{    
+                <li><a href="@Url.RouteUrl("Category", new { SeName = category.SeName })" >@category.Name 
                     @if (category.NumberOfProducts.HasValue)
                     {
-                        <span class="op-number">@if(category.NumberOfProducts<=9)
+                        <span class="">@if(category.NumberOfProducts<=9)
                                                 {
                                                     @:0@(category.NumberOfProducts.Value)
                                                 }else
@@ -36,48 +35,95 @@
                                                    @(category.NumberOfProducts.Value)
                                                 }</span>
                     }
-                </a>
-            </p>
-        </div>
-        
-            if (category.Id == Model.CurrentCategoryId ||
-                category.SubCategories.Count(BreadCrumbContainsCurrentCategoryId) > 0)
-            {
-                if (category.SubCategories.Count > 0)
-                {
+                    </a></li>
             
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        
+            
+        
+}
+
+@helper RenderCategoryLine(CategorySimpleModel category)
+{       
+    
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordian" href="#@category.Id">
+                @if (category.Id == Model.CurrentCategoryId ||
+                    category.SubCategories.Count(BreadCrumbContainsCurrentCategoryId) > 0)
+                    {
+                        if (category.SubCategories.Count > 0)
+                        {
+                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                        }
+                    }
+
                 
-                            @foreach (var subCategory in category.SubCategories)
-                            {
-                                @RenderCategoryLine(subCategory)
-                            }
-                
-                    </div>
-                }
-            }
+                <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })" >@category.Name
+                    @if (category.NumberOfProducts.HasValue)
+                    {
+                        <span class="">@if(category.NumberOfProducts<=9)
+                                       {
+                                           @:0@(category.NumberOfProducts.Value)
+                                       }else
+                                       {
+                                           @(category.NumberOfProducts.Value)
+                                       }</span>
+                    }
+                </a>
+            </a>
+        </h4>
+    </div>
+
+    if (category.Id == Model.CurrentCategoryId ||
+        category.SubCategories.Count(BreadCrumbContainsCurrentCategoryId) > 0)
+    {
+        if (category.SubCategories.Count > 0)
+        {
+            <div id="@category.Id" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var subCategory in category.SubCategories)
+                        {
+                            @RenderSubCategoryLine(subCategory)
+                        }
+                                
+                                
+                    </ul>
+                </div>
+            </div>
+
+            
+            
+        }
+    }
         
 }
 @if (Model.Categories.Count > 0)
 {
-    <div class="panel panel-default side-nav side-nav-category">
-        <div class="panel-heading">
-            <strong>@T("Categories")</strong>
-        </div>
-        <div class="panel-body">
-            <div class="panel-group" id="accordion">
-                @foreach (var category in Model.Categories)
-                {
-                    <div class="panel panel-default">
+  
+    
+    <h2>@T("Categories")</h2>
+    <div class="panel-group category-products" id="accordian">
+        @foreach (var category in Model.Categories)
+        {
+            <div class="panel panel-default">
                         
-                        @RenderCategoryLine(category)
+                @RenderCategoryLine(category)
                         
-                    </div>
-                }
             </div>
-            
-        </div>
+        }
         
     </div>
+<!--/category-products-->
+
+					
+        
+
+
+
+
+
+
+
+
+
 }

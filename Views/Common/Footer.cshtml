@@ -195,7 +195,7 @@
     @if (Model.DisplayTaxShippingInfoFooter)
                     {
                         var inclTax = EngineContext.Current.Resolve<IWorkContext>().TaxDisplayType == TaxDisplayType.IncludingTax;
-                        <div class="footer-bottom">
+                        <div class="footer-bottom text-center">
                             <div class="container">
                                 @T(inclTax ? "Footer.TaxShipping.InclTax" : "Footer.TaxShipping.ExclTax", Url.RouteUrl("Topic", new {SeName = Html.GetTopicSeName("shippinginfo")}))
                             </div>

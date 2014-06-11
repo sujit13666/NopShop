@@ -5,6 +5,7 @@
      var supportRtl = EngineContext.Current.Resolve<IWorkContext>().WorkingLanguage.Rtl;
     if (supportRtl)
     {
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/custom.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/main.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/animate.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/prettyPhoto.css");
@@ -19,7 +20,7 @@
     }
     else
     {
-        
+        Html.AppendCssFileParts("~/Themes/NopShop/Content/css/custom.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/main.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/animate.css");
         Html.AppendCssFileParts("~/Themes/NopShop/Content/css/prettyPhoto.css");

@@ -1,0 +1,18 @@
+﻿/*------------------------------------*\
+  Manufacturer view START
+\*------------------------------------*/
+
+.brands-name .nav-stacked li a img {
+    border-radius: 0px;
+}
+
+
+/*------------------------------------*\
+  Manufacturer view End
+\*------------------------------------*/
+
+
+
+.text-center {
+    text-align: center;
+}
