@@ -3,57 +3,167 @@
 @using Nop.Web.Models.Catalog;
 @if (Model.Count > 0)
 {
-    <div @*class="page category-page"*@>
-        <div @*class="sub-category-grid"*@>
-            @{
-                var i = 0;
-            }
-            @foreach (var item in Model)
-            {
-
-
-                if(i%4==0)
+    var cat_i = 0;
+    <div class="recommended_items"><!--recommended_items-->
+        <h2 class="title text-center">Featured Categories</h2>
+						
+        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var item in Model)
                 {
-                    @:<div class="row">
-                }
-                
-                    
-                    
-                <div class="col-lg-3" >
+                    if(cat_i%4==0)
+                    {
+                        if(cat_i==0)
+                        {
+                            @:<div class="item active">    
+                        }else
+                        {
+                            @:<div class="item">
+                        }
                         
-                    <div class="item-box">
-                        <div class="offer offer-default home-page-categories">
-                            <h2 class="product-title pull-text-center">
-                                <a href="@Url.RouteUrl("Category", new { SeName = item.SeName })" title="@item.PictureModel.Title">
-                                    @item.Name</a>
-                            </h2>
-                            <div class="picture pull-text-center">
-                                <a href="@Url.RouteUrl("Category", new { SeName = item.SeName })" title="@item.PictureModel.Title">
+
+                            
+
+                    }
+                    <div class="col-sm-3">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
                                     <img alt="@item.PictureModel.AlternateText" src="@item.PictureModel.ImageUrl"
-                                         title="@item.PictureModel.Title" /></a>
+                                         title="@item.PictureModel.Title" />
+                                    
+                                    <p><a href="@Url.RouteUrl("Category", new { SeName = item.SeName })" title="@item.PictureModel.Title">
+                                           @item.Name</a></p>
+                                    
+                                </div>
+												
                             </div>
                         </div>
                     </div>
-                </div>
-                if(i%4==3)
-                {
-                    @:</div>   
+                    if(cat_i%4==3)
+                    {
+                       @:</div> 
+                    }
+                    cat_i++;
                 }
+                @if(cat_i%4!=0)
+                    {
+                       @:</div> 
+                    }
+                @*<div class="item active">	
+                    <div class="col-sm-3">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
 
-                i++;
-            }
-            @if(i%4!=0)
-            {
-                @:</div>   
-            }
-
+                </div>
+                <div class="item">	
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="~/Themes/NopShop/Content/css/images/home/recommend1.jpg" alt="" />
+                                    
+                                    <p><a href="#">Easy Polo Black Edition</a></p>
+                                    
+                                </div>
+												
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+            </a>			
         </div>
-
-        
-
-
     </div>
-    @:</br>
+
+
+   
 
 
 }
+
+
+
+
+
+

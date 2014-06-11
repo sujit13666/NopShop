@@ -1,4 +1,24 @@
 ﻿/*------------------------------------*\
+  General view START
+\*------------------------------------*/
+
+ a {
+    color:#696763;
+}
+a:hover {
+    color:#FE980F;
+    text-decoration: none;
+}
+
+
+
+/*------------------------------------*\
+  General view End
+\*------------------------------------*/
+
+
+
+/*------------------------------------*\
   Manufacturer view START
 \*------------------------------------*/
 
@@ -13,6 +33,75 @@
 
 
 
+/*------------------------------------*\
+  Product Box view Start
+\*------------------------------------*/
+
+
 .text-center {
     text-align: center;
 }
+
+.rating
+{
+	height: 16px;
+	width: 80px;
+	background: url(images/star-x-inactive.png) 0 0 repeat-x;
+    margin-left: 34%;
+}
+
+	.rating div
+	{
+		float: left;
+		height: 16px;
+		background: url(images/star-x-active.png) 0 0 repeat-x;
+	}
+
+
+     .price.old-price {
+        text-decoration: line-through;
+        font-size: 18px;
+    }
+     .product-overlay {
+         color: #ffffff;
+     }
+     .product-overlay a{
+         color: #ffffff;
+     }
+     .product-overlay a:hover{
+         color: #696763;
+         text-decoration: none;
+     }
+
+     .box-product.single-products {
+         height: 375px;
+         overflow: hidden;
+     }
+     .box-product.single-products .productinfo img {
+
+        height: 240px;
+     }
+
+/*------------------------------------*\
+  Product Box view End
+\*------------------------------------*/
+
+
+/*------------------------------------*\
+  Home Page Categories view Start
+\*------------------------------------*/
+
+.recommended_items img {
+    height: 150px;
+}
+.recommended_items a {
+    color:#696763;
+}
+.recommended_items a:hover {
+    color:#FE980F;
+    text-decoration: none;
+}
+
+/*------------------------------------*\
+  Home Page Categories view End
+\*------------------------------------*/
