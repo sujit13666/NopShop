@@ -12,18 +12,22 @@
     @Html.Action("BlogMonths", "Blog")
     @Html.Action("BlogTags", "Blog")
 }
-<div class="blogpost-page panel panel-default form-panel">
+<div class="blog-post-area text-left">
     
-    <div class="panel-heading">
+    <div class="panel-heading single-blog-post">
         <div class="row">
             <div class="col-md-9">
                 <h3>@Model.Title</h3>
             </div>
-    
-            <div class="col-md-3 post-date">
-                <h5><span> @Model.CreatedOn.ToString("D")</span></h5>
-            </div>
         </div>
+        <div class="post-meta" >
+								<ul class="list-inline">
+									<li><i class="fa fa-user"></i> Mac Doe</li>
+									<li><i class="fa fa-clock-o"></i> @Model.CreatedOn.ToString("T")</li>
+									<li><i class="fa fa-calendar"></i>@Model.CreatedOn.ToString("D")</li>
+								</ul>
+								
+					 </div>
     </div>
 
 
@@ -33,7 +37,7 @@
     <div class="panel-body">
        
         @Html.Widget("blogpost_page_before_body")
-        <div class="post-body">
+        <div class="post-body blog-post-area text-area">
             @Html.Raw(Model.Body)
         </div>
         @if (Model.Tags.Count > 0)
@@ -56,7 +60,7 @@
         @Html.Widget("blogpost_page_before_comments")
         @if (Model.AllowComments)
         {
-            <div class="fieldset new-comment">
+            <div class=" blog-post-area text-area">
                 <div class="title">
                     <h4>@T("Blog.Comments.LeaveYourComment")</h4>
                 </div>
@@ -73,8 +77,8 @@
                 @using (Html.BeginForm())
                 {
                     
-                    <div class="form-fields row">
-                        <div class=" form-group  inputs">
+                    <div class="form-fields row blog-post-area text-area">
+                        <div class=" form-group  inputs single-post-area">
                         
                             @Html.LabelFor(model => model.AddNewComment.CommentText, new { @class = "col-md-2 control-label" }, ":")
                             <div class="col-md-8">
@@ -95,7 +99,7 @@
                     <div class="row">
                         <div class="col-md-offset-2 col-md-2">
                             <div class="buttons">
-                                <input type="submit" name="add-comment" class="button-1 blog-post-add-comment-button btn btn-default" value="@T("Blog.Comments.SubmitButton")" />
+                                <input type="submit" name="add-comment" class="btn btn-primary" value="@T("Blog.Comments.SubmitButton")" />
                             </div>
                         </div>
                     </div>
@@ -109,31 +113,19 @@
                     </div>
                     @foreach (var comment in Model.Comments)
                     {
-                        <div class="blog-comment row">
-                            <div class="comment-info col-md-3">
-                                <div class="user-info">
-                                    @if (comment.AllowViewingProfiles)
-                                    {
-                                        <a href="@Url.RouteUrl("CustomerProfile", new { id = comment.CustomerId })" class="username">@(comment.CustomerName)</a>
-                                    }
-                                    else
-                                    {
-                                        <h5><span class="username">@(comment.CustomerName)</span></h5>
-                                    }
-                                    <div class="avatar">
-                                        @if (!String.IsNullOrEmpty(comment.CustomerAvatarUrl))
-                                        {
-                                            <img src="@(comment.CustomerAvatarUrl)" class="avatar-img" title="avatar" alt="avatar" />
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment-content col-md-9">
+                        <div class="blog-comment row"  style="margin-bottom:10px">
+                            
+                            <div class="comment-content col-md-9 media">
                              
-                                <div class="comment-time title mid-content-title" style="border: none">
-                                    <label>@T("Blog.Comments.CreatedOn"):</label>
-                                    <span class="stat-value">@comment.CreatedOn.ToString("g")</span>
-                                </div>
+                              <div class="comment-time title mid-content-title" style="border: none">                                   
+                                <div class="post-meta" >
+								    <ul class="list-inline">
+									    <li><i class="fa fa-user"></i>@(comment.CustomerName)   </li>
+									    <li><i class="fa fa-clock-o"></i> @Model.CreatedOn.ToString("D")</li>
+									    <li><i class="fa fa-calendar"></i> @Model.CreatedOn.ToString("T")</li>
+								    </ul>								
+					            </div>
+                              </div>
                                 <div class="comment-body">
                                     @Html.Raw(Nop.Core.Html.HtmlHelper.FormatText(comment.CommentText, false, true, false, false, false, false))
                                 </div>

@@ -35,21 +35,26 @@
         </h3>
     </div>
 
-    <div class="panel-body">
+    <div class="panel-body blog-post-area text-left">
         @Html.Widget("bloglist_page_before_posts")
-        <div class="blog-posts">
+        <div class="blog-posts single-blog-post text-left">
             @foreach (var item in Model.BlogPosts)
             {
-                <div class="post">
+                <div class="post single-blog-post">
                     <div class="post-head">
                         <div class="row">
                             <div class="col-md-8 pull-text-left">
                                 <h4><a class="post-title" href="@Url.RouteUrl("BlogPost", new { SeName = item.SeName })">@item.Title</a></h4>
                             </div>
-                            <div class="col-md-4 pull-text-right">                       
-                                <h5><span class="post-date">@item.CreatedOn.ToString("D")</span></h5>
-                            </div>
                         </div>
+                    <div class="post-meta" >
+								<ul class="list-inline">
+									<li><i class="fa fa-user"></i> Mac Doe</li>
+									<li><i class="fa fa-clock-o"></i> @item.CreatedOn.ToString("T")</li>
+									<li><i class="fa fa-calendar"></i>@item.CreatedOn.ToString("D")</li>
+								</ul>
+								
+					 </div>
                     </div>
                     <div class="post-body">
                         @Html.Raw(item.Body)

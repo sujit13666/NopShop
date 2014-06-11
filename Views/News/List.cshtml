@@ -7,36 +7,44 @@
     //title
     Html.AddTitleParts(T("PageTitle.NewsArchive").Text);
 }
-<div class="news-list-page panel panel-default form-panel">
-    <div class="panel-heading">
+<div class="panel-default">
+    <div class="panel-heading title text-center">
        <a href="@Url.RouteUrl("NewsRSS", new { languageId = Model.WorkingLanguageId })" class="pull-right header-rss" title="@T("News.RSS.Hint")"><i class="fa fa-rss fa-2x header-rss-icon"></i></a>
-       <h3>@T("News")</h3>
+       <h3>
+            @T("News")
+            
+       </h3>
     </div>
-    <div class="panel-body">
+    <div class="blog-post-area text-left ">
         @Html.Widget("newslist_page_before_items")
-        <div class="news-items">
+        <div class="news-items text-left">
             @foreach (var item in Model.NewsItems)
             {
-                <div class="item">
+                <div class="single-blog-post text-left">
                     <div class="row">
-                        <div class="col-md-8 pull-text-left">
+                        <div class="col-sm-9" >
+                            
                             <h4><a class="news-title" href="@Url.RouteUrl("NewsItem", new { SeName = item.SeName })">@item.Title</a></h4> 
                         </div>
-                        <div class="col-md-4 pull-text-right">
-                            <h5><span class="news-date">@item.CreatedOn.ToString("D")</span></h5>
-                        </div>
-
                         
                     </div>
+                    <div class="post-meta" >
+								<ul class="list-inline">
+									<li><i class="fa fa-user"></i> Mac Doe</li>
+									<li><i class="fa fa-clock-o"></i> 1:33 pm</li>
+									<li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
+								</ul>
+								
+					</div>
 
-                    <div class="news-details">
+                    <div class="news-details ">
                         @Html.Raw(item.Short)
                     </div>
                     <div class="row down-space-10 clearfix"></div>
                     
-                    <div class="row">
-                        <div class="col-md-12 pull-text-right">
-                            <a href="@Url.RouteUrl("NewsItem", new { SeName = item.SeName })" class="btn btn-default read-more">
+                    <div>
+                        <div class="btn btn-primary">
+                            <a href="@Url.RouteUrl("NewsItem", new { SeName = item.SeName })" >
                                 @T("News.MoreInfo")</a>        
                         </div>
                     </div>

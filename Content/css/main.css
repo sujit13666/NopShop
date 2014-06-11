@@ -2019,13 +2019,13 @@ h2.title {
 .blog-post-area 
 .post-meta {
   display: block;
-  margin-bottom: 25px;
+  margin-bottom: 5px;
   overflow: hidden;
 }
 
 .blog-post-area 
 .post-meta ul {
-  padding:0;
+  padding:5px;
   display: inline;
 }
 
@@ -2341,8 +2341,8 @@ h2.title {
 
 
 .replay-box {
-  margin-bottom: 107px;
-  margin-top: 55px;
+  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .replay-box h2 {
@@ -2356,7 +2356,8 @@ h2.title {
 .replay-box label {
   background:#FE980F;
   color: #FFFFFF;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  margin-left:15px;
   padding: 3px 15px;
   float: left;
   font-weight: 400;
@@ -2366,14 +2367,14 @@ h2.title {
   color: #FE980F;
   float: right;
   font-weight: 700;
-  margin-top: 21px;
+  margin-top: 5px;
 }
 
 .replay-box form input {
   border: 1px solid #F7F7F0;
   color: #ADB2B2;
   font-size: 12px;
-  margin-bottom: 22px;
+  margin-bottom:5px;
   padding: 8px;
   width: 100%;
 }
