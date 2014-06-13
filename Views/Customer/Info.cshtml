@@ -131,6 +131,7 @@
                         if (Model.AllowUsersToChangeUsernames)
                         {
                             <div class="form-group row">
+                                
                                 @Html.LabelFor(model => model.Username, new { @class = "col-md-2 control-label" }, ":")
                                 <div class="col-md-6">
                                     @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
