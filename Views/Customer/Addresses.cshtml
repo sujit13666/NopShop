@@ -10,9 +10,9 @@
 {
     @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
 }
-<div class="panel panel-default form-panel">
-    <div class="panel-heading">
-        <h3>@T("Account.MyAccount") - @T("Account.CustomerAddresses")</h3>
+<div class="col-sm-9">
+    <div class="blog-post-area">
+        <h2 class="title text-center">@T("Account.MyAccount") - @T("Account.CustomerAddresses")</h2>
     </div>
     <div class="panel-body">
         <div class="address-list">
@@ -108,7 +108,7 @@
              <legend></legend>
         </div>
         <div class="add-button">
-            <input type="button" class="button-1 add-address-button btn btn-default" onclick="location.href='@Url.RouteUrl("CustomerAddressAdd")'" value="@T("Common.AddNew")" />
+            <input type="button" class="button-1 add-address-button btn btn-default bk-orange pull-right" onclick="location.href='@Url.RouteUrl("CustomerAddressAdd")'" value="@T("Common.AddNew")" />
         </div>
     </div>
 </div>

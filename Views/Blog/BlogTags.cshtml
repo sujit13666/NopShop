@@ -6,8 +6,8 @@
         <div class="panel-heading">
             <strong>@T("Blog.TagCloud")</strong>
         </div>
-        <div class="listbox listbox panel-body">
-            <ul class="tags">
+        <div class="rating-area">
+            <ul class="tag">
                 @foreach (var item in Model.Tags)
                 {
                    <a href="@Url.RouteUrl("BlogByTag", new { tag = item.Name })" style="font-size:@(Model.GetFontSize(item))%;">@item.Name</a>

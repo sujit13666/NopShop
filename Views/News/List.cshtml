@@ -7,13 +7,14 @@
     //title
     Html.AddTitleParts(T("PageTitle.NewsArchive").Text);
 }
-<div class="panel-default">
-    <div class="panel-heading title text-center">
-       <a href="@Url.RouteUrl("NewsRSS", new { languageId = Model.WorkingLanguageId })" class="pull-right header-rss" title="@T("News.RSS.Hint")"><i class="fa fa-rss fa-2x header-rss-icon"></i></a>
-       <h3>
+<div class="col-sm-9">
+    <div class="blog-post-area">
+       <h2 class="title text-center">
             @T("News")
+       <a href="@Url.RouteUrl("NewsRSS", new { languageId = Model.WorkingLanguageId })" class="margin-orange header-rss" title="@T("News.RSS.Hint")"><i class="fa fa-rss header-rss-icon"></i></a>
+
             
-       </h3>
+       </h2>
     </div>
     <div class="blog-post-area text-left ">
         @Html.Widget("newslist_page_before_items")

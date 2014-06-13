@@ -10,14 +10,14 @@
 {
     @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
 }
-<div class="page account-page order-list-page">
+<div class="col-sm-9">
     
-    <div class="panel panel-default form-panel">
+    <div class="blog-post-area">
     
         <div class="panel-heading">
-            <h3>@T("Account.MyAccount") - @T("Account.CustomerOrders")</h3>
+            <h2 class="title text-center">@T("Account.MyAccount") - @T("Account.CustomerOrders")</h2>
         </div>
-        <div class="panel-body">
+        <div class="panel-body margin-orange">
             @if (Model.RecurringOrders.Count > 0)
             {
 

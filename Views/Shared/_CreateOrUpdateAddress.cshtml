@@ -32,16 +32,18 @@
     </script>
 }
 @Html.HiddenFor(model => model.Id)
-<div class="form-horizontal">
-    <div class="form-group inputs">
+<div class="form-horizontal" >
+    <div class="form-group">
         @*@Html.LabelFor(model => model.FirstName, new { }, ":")
             @Html.EditorFor(model => model.FirstName)
         @Html.RequiredHint()
         @Html.ValidationMessageFor(model => model.FirstName)*@
 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="bk-orange margin-orange text-center">
                                 @Html.LabelFor(model => model.FirstName, new { @class="control-label"})
                                 @Html.RequiredHint()
+                            </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 @Html.TextBoxFor(model => model.FirstName, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -56,9 +58,11 @@
         @Html.RequiredHint()
         @Html.ValidationMessageFor(model => model.LastName)*@
 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.LastName, new { @class="control-label"})
                                 @Html.RequiredHint()
+                            </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 @Html.TextBoxFor(model => model.LastName, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -73,9 +77,11 @@
         @Html.RequiredHint()
         @Html.ValidationMessageFor(model => model.Email)*@
 
-         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">                                
                                 @Html.LabelFor(model => model.Email, new { @class="control-label"})
                                 @Html.RequiredHint()
+                            </div>
                             </div>                            
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 @Html.TextBoxFor(model => model.Email, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -95,12 +101,14 @@
             }
             @Html.ValidationMessageFor(model => model.Company)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.Company, new { @class="control-label"})
                                 @if (Model.CompanyRequired)
                                 {
                                     @Html.RequiredHint()
                                 }
+                            </div>
                             </div>                            
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.Company, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -118,9 +126,11 @@
             @Html.RequiredHint()
             @Html.ValidationMessageFor(model => model.CountryId)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.CountryId, new { @class="control-label"})
                                 @Html.RequiredHint()
+                            </div>
                             </div>                            
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 @Html.DropDownList("CountryId", Model.AvailableCountries, new { @class="form-control square-box"})
@@ -137,8 +147,10 @@
             @*@Html.LabelFor(model => model.StateProvinceId, new { }, ":")
                 @Html.DropDownListFor(model => model.StateProvinceId, Model.AvailableStates)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                     @Html.LabelFor(model => model.StateProvinceId, new { @class="control-label"})
+                            </div>
                                 </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                 @Html.DropDownList("StateProvinceId", Model.AvailableStates, new { @class="form-control square-box"})
@@ -164,12 +176,14 @@
             }
             @Html.ValidationMessageFor(model => model.City)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.City, new { @class="control-label"})
                                 @if (Model.CityRequired)
                                 {
                                     @Html.RequiredHint()
                                 }
+                            </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.City, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -190,12 +204,14 @@
             }
             @Html.ValidationMessageFor(model => model.Address1)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.Address1, new { @class="control-label"})
                                 @if (Model.StreetAddressRequired)
                                 {
                                     @Html.RequiredHint()
                                 }
+                            </div>
                             </div>                            
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.Address1, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -216,12 +232,14 @@
             }
             @Html.ValidationMessageFor(model => model.Address2)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.Address2, new { @class="control-label"})
                                 @if (Model.StreetAddress2Required)
                                 {
                                     @Html.RequiredHint()
                                 }
+                    </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.Address2, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -242,12 +260,14 @@
             }
             @Html.ValidationMessageFor(model => model.ZipPostalCode)*@
 
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.ZipPostalCode, new { @class="control-label"})
                                 @if (Model.ZipPostalCodeRequired)
                                 {
                                     @Html.RequiredHint()
                                 }
+                            </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.ZipPostalCode, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -268,12 +288,14 @@
             }
             @Html.ValidationMessageFor(model => model.PhoneNumber)*@
 
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.PhoneNumber, new { @class="control-label"})
                                 @if (Model.PhoneRequired)
                                 {
                                     @Html.RequiredHint()
                                 }
+                            </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.PhoneNumber, new { @class="form-control square-box", autofocus = "autofocus" })
@@ -294,12 +316,14 @@
             }
             @Html.ValidationMessageFor(model => model.FaxNumber)*@
 
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                            <div class="bk-orange margin-orange">
                                 @Html.LabelFor(model => model.FaxNumber, new { @class="control-label"})
                                 @if (Model.FaxRequired)
                                 {
                                     @Html.RequiredHint()
                                 }
+                            </div>
                             </div>                           
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                  @Html.TextBoxFor(model => model.FaxNumber, new { @class="form-control square-box", autofocus = "autofocus" })

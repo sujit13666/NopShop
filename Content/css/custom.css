@@ -105,3 +105,35 @@ a:hover {
 /*------------------------------------*\
   Home Page Categories view End
 \*------------------------------------*/
+
+
+
+
+/*------------------------------------*\
+  background and indentation view start
+\*------------------------------------*/
+
+
+
+.bk-orange {
+    background-color: orange;
+    color:white;
+}
+
+.margin-orange {
+    margin-left: 15px;
+}
+
+.form-control:hover {
+  box-shadow: inherit;
+  border-color: #FDB45E;
+}
+
+.form-control:focus {
+  box-shadow: inherit;
+  border-color: #FDB45E;
+}
+
+/*------------------------------------*\
+  Home Page Categories view End
+\*------------------------------------*/

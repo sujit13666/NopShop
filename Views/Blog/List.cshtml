@@ -11,12 +11,10 @@
     @Html.Action("BlogMonths", "Blog")
     @Html.Action("BlogTags", "Blog")
 }
-<div class="blog-page  panel panel-default form-panel">
-    <div class="panel-heading">
-        <div class="alignright">
-            <a href="@Url.RouteUrl("BlogRSS", new { languageId = Model.WorkingLanguageId })" class="pull-right header-rss" title="@T("Blog.RSS.Hint")"><i class="fa fa-rss fa-2x header-rss-icon"></i></a>
-        </div>            
-        <h3>
+<div class="col-sm-9">
+    <div class="blog-post-area">
+                   
+        <h2 class="title text-center">
             @if (String.IsNullOrEmpty(Model.PagingFilteringContext.Tag))
             {
                 if (Model.PagingFilteringContext.GetParsedMonth().HasValue)
@@ -26,13 +24,15 @@
                 else
                 {
                     @T("Blog")
+                    <a href="@Url.RouteUrl("BlogRSS", new { languageId = Model.WorkingLanguageId })" class=" margin-orange header-rss" title="@T("Blog.RSS.Hint")"><i class="fa fa-rss header-rss-icon"></i></a>
+
                 }
             }
             else
             {
                 @String.Format(T("Blog.TaggedWith").Text, Model.PagingFilteringContext.Tag)
             }
-        </h3>
+        </h2>
     </div>
 
     <div class="panel-body blog-post-area text-left">
@@ -56,18 +56,18 @@
 								
 					 </div>
                     </div>
-                    <div class="post-body">
+                    <div class="rating-area">
                         @Html.Raw(item.Body)
                     </div>
                     @if (item.Tags.Count > 0)
                     {
-                        <div class="tags">
+                        <div class="tag pull-right">
                             <label><strong>@T("Blog.Tags"):</strong></label>
                            
                             @for (int i = 0; i < item.Tags.Count; i++)
                             {
                                 var tag = item.Tags[i];
-                                <a href="@Url.RouteUrl("BlogByTag", new { tag = tag })">@tag</a>
+                                <a class="color" style="color:orange" href="@Url.RouteUrl("BlogByTag", new { tag = tag })">@tag</a>
                                 if (i != item.Tags.Count - 1)
                                 {
                                     <span class="separator">,</span>
@@ -79,7 +79,7 @@
                     @if (item.AllowComments)
                     {
                         <div class="blog-details">
-                            <a href="@Url.RouteUrl("BlogPost", new { SeName = item.SeName })">
+                            <a style="color:orange" href="@Url.RouteUrl("BlogPost", new { SeName = item.SeName })">
                                 <strong> @string.Format(T("Blog.CommentsLink").Text, item.NumberOfComments)</strong>
                             </a>
                         </div>

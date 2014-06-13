@@ -12,11 +12,11 @@
 }
 @using (Html.BeginForm())
 {
-    <div class="page account-page address-edit-page">
-        <div class="panel panel-default form-panel">
+    <div class="col-sm-9">
+        <div class="blog-post-area">
             
             <div class="panel-heading">
-                <h3>@T("Account.MyAccount") - @T("Account.CustomerAddresses.AddNew")</h3>
+                <h2 class="title text-center">@T("Account.MyAccount") - @T("Account.CustomerAddresses.AddNew")</h2>
             </div>
             <div class="panel-body">
                 @{
@@ -27,7 +27,7 @@
                     @Html.Partial("_CreateOrUpdateAddress", Model.Address, dataDictAddress)              
                 }
                 <div class="buttons">
-                    <input type="submit" class="button-1 save-address-button btn btn-default" value="@T("Common.Save")" />
+                    <input type="submit" class="button-1 save-address-button btn btn-default pull-right bk-orange" value="@T("Common.Save")" />
                 </div>
             </div>
         </div>

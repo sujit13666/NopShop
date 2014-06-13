@@ -58,7 +58,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="title mid-content-title pull-text-right">
+            <div class="title mid-content-title pull-text-right" >
                 @Html.RouteLink(" "+T("Forum.NewTopic").ToString(), "TopicCreate", new { id = Model.Id }, new { @class = "newtopic btn btn-default fa fa-plus-square" })
                 @if (Model.IsCustomerAllowedToSubscribe)
                 {

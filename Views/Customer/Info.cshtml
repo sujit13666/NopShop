@@ -41,11 +41,11 @@
         });
     </script>
 }
-<div class="panel panel-default form-panel">
-    <div class="panel-heading">
-        <h3>@T("Account.MyAccount") - @T("Account.CustomerInfo")</h3>
+<div class="col-sm-9">
+    <div class="blog-post-area">
+        <h2 class="title text-center">@T("Account.MyAccount") - @T("Account.CustomerInfo")</h2>
     </div>
-    <div class="panel-body">
+    <div class="">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -54,13 +54,13 @@
             </div>
             <div class="fieldset">
                 <div id="legend">
-                  <legend class="">@T("Account.YourPersonalDetails")</legend>
+                  <legend >@T("Account.YourPersonalDetails")</legend>
                 </div>
                 <div class="form-fields">
                     @if (Model.GenderEnabled)
                     {
                         <div class="form-group row">
-                            <label class="col-md-2 control-label">@T("Account.Fields.Gender"):</label>
+                            <label class="col-md-2 control-label bk-orange margin-orange" >@T("Account.Fields.Gender"):</label>
                             <div class="col-md-9">
                                 @Html.RadioButton("Gender", "M", (Model.Gender == "M"), new { id = "gender-male" })
                                 <label class="forcheckbox  class="col-md-2 control-label"" for="gender-male">@T("Account.Fields.Gender.Male")</label>
@@ -70,21 +70,26 @@
                         </div>
                     }
                     <div class="form-group row">
-                        @Html.LabelFor(model => model.FirstName, new { @class = "col-md-2 control-label" }, ":")
+                        <div class="col-md-2 bk-orange margin-orange"> 
+                        @Html.LabelFor(model => model.FirstName, new { @class = "col-md- control-label" }, ":")
+                        </div>
                         <div class="col-md-6">
                             @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2" >
+                            
                             @Html.RequiredHint()
                             @Html.ValidationMessageFor(model => model.FirstName)
                         </div>     
                     </div>
                     <div class="form-group row">
+                        <div class="col-md-2 bk-orange margin-orange">
                         @Html.LabelFor(model => model.LastName, new { @class = "col-md-2 control-label" }, ":")
+                        </div>
                         <div class="col-md-6">
                             @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             @Html.RequiredHint()
                             @Html.ValidationMessageFor(model => model.LastName)
                         </div>
@@ -92,8 +97,8 @@
                     @if (Model.DateOfBirthEnabled)
                     {
                         <div class="form-group row">
-                            <label class="col-md-2 control-label">@T("Account.Fields.DateOfBirth"):</label>
-                            <div class="col-md-10">
+                            <label class="col-md-2 control-label bk-orange margin-orange">@T("Account.Fields.DateOfBirth"):</label>
+                            <div class="col-md-6">
                                 @Html.DatePickerDropDowns(Html.FieldNameFor(x => x.DateOfBirthDay),
                                                           Html.FieldNameFor(x => x.DateOfBirthMonth),
                                                           Html.FieldNameFor(x => x.DateOfBirthYear),
@@ -109,11 +114,13 @@
                         </div>
                     }
                     <div class="form-group row">
+                        <div class="col-md-2 bk-orange margin-orange">
                         @Html.LabelFor(model => model.Email, new { @class = "col-md-2 control-label" }, ":")
+                        </div>
                         <div class="col-md-6">
                             @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             @Html.RequiredHint()
                             @Html.ValidationMessageFor(model => model.Email)
                         </div>
@@ -204,7 +211,9 @@
                     @if (Model.CompanyEnabled)
                     {
                         <div class="form-group row">
+                                <div class="col-md-2 bk-orange margin-orange">
                                 @Html.LabelFor(model => model.Company, new { @class = "col-md-2 control-label" }, ":")
+                                </div>
                                 <div class="col-md-6">
                                     @Html.TextBoxFor(model => model.Company, new { @class = "form-control" })
                                 </div>   
@@ -382,7 +391,9 @@
                 </div>
                 <div class="form-fields">
                         <div class="form-group row">
+                            <div class="col-md-2 bk-orange margin-orange">
                             @Html.LabelFor(model => model.Newsletter, new { @class = "col-md-2 control-label" }, ":")
+                            </div>
                             <div class="col-md-6">    
                                 @Html.EditorFor(model => model.Newsletter, new { @class = "form-control" })
                             </div>
@@ -415,7 +426,9 @@
                     @if (Model.SignatureEnabled)
                     {
                         <div class="form-group row">
+                            <div class="col-md-2 bk-orange margin-orange">
                             @Html.LabelFor(model => model.Signature, new { @class = "col-md-2 control-label" }, ":")
+                            </div>
                             <div class="col-md-6">    
                                 @Html.TextAreaFor(model => model.Signature, new { @class = "form-control" })                                  
                             </div>
@@ -424,8 +437,8 @@
                 </div>
             </div>
                     }
-            <div class="buttons">
-                <input type="submit" value="@T("Common.Save")" name="save-info-button" class="button-1 register-next-step-button btn btn-default" />
+            <div class="buttons pull-right">
+                <input type="submit" value="@T("Common.Save")" name="save-info-button" class="button-1 register-next-step-button btn btn-default bk-orange" />
             </div>
         }
     </div>

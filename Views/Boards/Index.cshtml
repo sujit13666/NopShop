@@ -19,13 +19,17 @@
     
     
 
-    <div class="container">
-        <div class=" offer offer-default">
-            <div class="row">
-                <div class="col-md-4 current-time">
-                    <h5> <strong> @Model.CurrentTime.ToString("F")</strong></h5>
-                </div>
-                <div class="col-md-offset-5 col-md-3">
+    <div class="container blog-post-area">
+        <div class=" offer offer-default single-blog-post">
+            <div class="row">                
+                <div class="post-meta" >
+								<ul class="list-inline">									
+									<li><i class="fa fa-clock-o"></i> @Model.CurrentTime.ToString("T")</li>
+									<li><i class="fa fa-calendar"></i> @Model.CurrentTime.ToString("D")</li>
+								</ul>
+								
+				</div>
+                <div class="col-md-offset-5 col-md-3 pull-right">
                     @Html.Partial("_SearchBox")
                 </div>
             </div>    
