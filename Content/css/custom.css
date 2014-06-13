@@ -105,3 +105,15 @@ a:hover {
 /*------------------------------------*\
   Home Page Categories view End
 \*------------------------------------*/
+
+/*------------------------------------*\
+  BestSeller Slide Show start
+\*------------------------------------*/
+
+#recommended-item-carousel-2 .carousel-inner .item {
+  padding-left: 15px;
+padding-right: 15px;
+}
+/*------------------------------------*\
+  BestSeller Slideshow End
+\*------------------------------------*/
